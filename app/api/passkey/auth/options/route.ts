@@ -5,6 +5,12 @@ import { generateAuthenticationOptions } from "@simplewebauthn/server";
 import { prisma } from "@/lib/prisma";
 import { rpID } from "@/lib/webauthn";
 
+interface Passkey {
+  credentialId: string
+  transports?: string | null
+}
+
+
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
@@ -20,7 +26,7 @@ export async function POST() {
 
     const options = await generateAuthenticationOptions({
       rpID,
-      allowCredentials: userPasskeys.map(pk => ({
+      allowCredentials: userPasskeys.map((pk: Passkey) => ({
         id: pk.credentialId,
         type: 'public-key',
         transports: pk.transports ? JSON.parse(pk.transports) : undefined,
