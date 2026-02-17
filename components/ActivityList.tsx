@@ -1,0 +1,105 @@
+'use client';
+
+import { motion, type Transition } from 'motion/react';
+import { Label } from '@/components/ui/label';
+import { Checkbox, CheckboxIndicator } from '@/components/animate-ui/primitives/radix/checkbox';
+import { Trash2 } from 'lucide-react';
+
+type ActivityItem = {
+  id: string;
+  title: string;
+  isCompleted: boolean;
+  isRecurring: boolean;
+};
+
+type ActivityListProps = {
+  activities: ActivityItem[];
+  onToggle: (id: string) => void;
+  onDelete?: (id: string) => void;
+};
+
+const getPathAnimate = (isChecked: boolean) => ({
+  pathLength: isChecked ? 1 : 0,
+  opacity: isChecked ? 1 : 0,
+});
+
+const getPathTransition = (isChecked: boolean): Transition => ({
+  pathLength: { duration: 1, ease: 'easeInOut' },
+  opacity: {
+    duration: 0.01,
+    delay: isChecked ? 0 : 1,
+  },
+});
+
+function ActivityList({ activities, onToggle, onDelete }: ActivityListProps) {
+  {
+    if (activities.length === 0) {
+      return (
+        <div className="bg-card-overlay rounded-2xl p-6 text-center text-text">
+          No activities to display
+        </div>
+      );
+    }
+  }
+  return (
+    <div className="bg-overlay rounded-2xl p-6 space-y-6">
+      {activities.map((item, idx) => (
+        <div key={item.id} className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              checked={item.isCompleted}
+              onCheckedChange={() => onToggle(item.id)}
+              id={`checkbox-${item.id}`}
+
+              className="data-[state=checked]:bg-action  h-5 w-5 shrink-0 rounded border border-text/20 flex items-center justify-center"><CheckboxIndicator className="stroke-text h-4 w-4" />
+            </Checkbox>
+
+
+            <div className="relative inline-block">
+              <Label className='text-text' htmlFor={`checkbox-${item.id}`}>{item.title}</Label>
+              {item.isRecurring && (
+                <span className="text-text/60 text-sm ml-2">Recurring</span>
+              )}
+
+              <motion.svg
+                width="340"
+                height="32"
+                viewBox="0 0 340 32"
+                className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none z-20 w-full h-8"
+              >
+                <motion.path
+                  d="M 10 16.91 s 79.8 -11.36 98.1 -11.34 c 22.2 0.02 -47.82 14.25 -33.39 22.02 c 12.61 6.77 124.18 -27.98 133.31 -17.28 c 7.52 8.38 -26.8 20.02 4.61 22.05 c 24.55 1.93 113.37 -20.36 113.37 -20.36"
+                  vectorEffect="non-scaling-stroke"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeMiterlimit={10}
+                  fill="none"
+                  initial={false}
+                  animate={getPathAnimate(!!item.isCompleted)}
+                  transition={getPathTransition(!!item.isCompleted)}
+                  className="stroke-action"
+                />
+              </motion.svg>
+
+            </div>
+
+            {onDelete && (
+              <button
+                onClick={() => onDelete(item.id)}
+                className="absolute right-12 text-red-600/80 hover:text-red-600 transition-colors"
+                aria-label="Delete activity"
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            )}
+          </div>
+          {idx !== activities.length - 1 && (
+            <div className="border-t border-overlay" />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export { ActivityList };

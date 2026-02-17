@@ -1,0 +1,166 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters", "postgresqlExtensions"]
+  output          = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  extensions = [vector]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  emailEnc  String?
+  emailHash String? @unique
+  nameEnc   String?
+
+  emailVerified DateTime?
+
+  accounts Account[]
+  sessions Session[]
+  passkeys Passkey[]
+
+  emailNotifications Boolean @default(false)
+
+  passkeyChallenges PasskeyChallenge[]
+
+  embeddings Embedding[]
+
+
+  actions Actions[]
+
+  note        Note[]
+  attachments Attachment[]
+  links       Link[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountIdHash String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  ext_expires_in    Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountIdHash])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifierHash String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifierHash, token])
+}
+
+model Actions {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  isRecurring Boolean  @default(false)
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String?
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model Attachment {
+  id           String   @id @default(cuid())
+  userId       String
+  name         String
+  type         String
+  originalSize Int
+  contentType  String   // "text" | "ocr" | "pdf" | "docx" | "xlsx" | "error"
+  content      String   @db.Text
+  extractedAt  DateTime @default(now())
+  
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([userId, extractedAt])
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  userId    String
+  url       String
+  title     String?
+  createdAt DateTime @default(now())
+  
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model Embedding {
+  id        String   @id @default(cuid())
+  userId    String
+  source    String
+  sourceId  String
+  content   String
+  vector    Unsupported("vector(3072)")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Passkey {
+  id           String   @id @default(cuid())
+  userId       String
+  credentialId String   @unique
+  publicKey    String
+  counter      Int
+  transports   String?
+  deviceName   String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasskeyChallenge {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  challenge String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
