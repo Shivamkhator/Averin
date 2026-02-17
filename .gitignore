@@ -46,3 +46,4 @@ next-env.d.ts
 /app/api/cron/period-reminder/route.ts
 /app/api/notify/action/route.ts
 /lib/emailTemplates.ts
+vercel.json
