@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
     const context =
       results.length > 0
-        ? results.map((r) => `- ${r.content} (${r.source})`).join("\n")
+        ? results.map((r:{content: string, source: string}) => `- ${r.content} (${r.source})`).join("\n")
         : "No relevant data found.";
 
     if (results.length === 0) {
