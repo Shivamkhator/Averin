@@ -6,6 +6,13 @@ import { searchVault } from "@/lib/embeddings";
 import { genAI } from "@/lib/gemini";
 import { hashEmail } from "@/lib/crypto";
 
+interface SearchResult {
+  source: string
+  content: string
+  similarity: number
+}
+
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -116,7 +123,7 @@ Now reply in smart but, friendly human language.
 
     return NextResponse.json({
       answer,
-      sources: results.map((r) => ({
+      sources: results.map((r: SearchResult) => ({
         source: r.source,
         content: r.content,
         similarity: Number(r.similarity.toFixed(4)),
