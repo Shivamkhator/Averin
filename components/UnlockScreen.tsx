@@ -12,8 +12,7 @@ export function UnlockScreen() {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
   const { data: session } = useSession()
-
-  const autoVerifyRan = useRef(false)
+  const autoVerifyAttempted = useRef(false)
 
   useEffect(() => {
     const lock = JSON.parse(localStorage.getItem("passkeyLock") || "null")
@@ -34,8 +33,8 @@ export function UnlockScreen() {
       setHasPasskeys(data.hasPasskeys)
       const lock = JSON.parse(localStorage.getItem("passkeyLock") || "null")
 
-      if (data.hasPasskeys && !lock?.isUnlocked && !autoVerifyRan.current && !isVerifying) {
-        autoVerifyRan.current = true;
+      if (data.hasPasskeys && !lock?.isUnlocked && !autoVerifyAttempted.current) {
+        autoVerifyAttempted.current = true
         await handleVerify()
       }
     } catch (error) {
