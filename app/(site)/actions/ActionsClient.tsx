@@ -12,8 +12,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { ActivityList } from '@/components/ActivityList';
 import { Input } from "@/components/ui/input";
-import { Plus, Repeat } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner"
+import { Checkbox, CheckboxIndicator } from '@/components/animate-ui/primitives/radix/checkbox';
 
 type ActivityItem = {
   id: string;
@@ -30,7 +31,8 @@ export default function ActionsPage({ user }: { user: { name?: string | null } }
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [newActivityTitle, setNewActivityTitle] = useState("");
   const [loading, setLoading] = useState(true);
-  const [mounted, setMounted] = useState(false); // Add this
+  const [mounted, setMounted] = useState(false);
+  const [isRecurring, setIsRecurring] = useState(false);
 
   // Add this useEffect
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function ActionsPage({ user }: { user: { name?: string | null } }
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: newActivityTitle,
-          isRecurring: false,
+          isRecurring: isRecurring,
           isCompleted: false,
         }),
       });
@@ -74,6 +76,7 @@ export default function ActionsPage({ user }: { user: { name?: string | null } }
         setActivities([newActivity, ...activities]);
         toast.success("Action added successfully!");
         setNewActivityTitle("");
+        setIsRecurring(false);
       }
     } catch (error) {
       console.error("Error adding action:", error);
@@ -182,17 +185,29 @@ export default function ActionsPage({ user }: { user: { name?: string | null } }
             <div className="flex gap-2 flex-col">
 
               <div className="flex justify-center flex-col items-center">
-                <p className="text-sm text-text mt-1">
+                <p className="text-sm text-text mt-2">
                   {activities.filter(t => !t.isCompleted).length} Pending, {activities.filter(t => t.isCompleted).length} Completed
                 </p>
               </div>
-              <Input
-                placeholder="Add a new action..."
-                value={newActivityTitle}
-                onChange={(e) => setNewActivityTitle(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && addActivity()}
-                className="flex-1 border-0 shadow-none focus:ring-0 focus:ring-offset-0"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  placeholder="Add an action"
+                  value={newActivityTitle}
+                  onChange={(e) => setNewActivityTitle(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && addActivity()}
+                  className="border-0 shadow-none focus:ring-0 focus:ring-offset-0 text-text"
+                />
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={isRecurring}
+                    onCheckedChange={(checked) => setIsRecurring(checked as boolean)}
+                    className="h-5 w-5 shrink-0 rounded border border-text/20 flex items-center justify-center data-[state=checked]:bg-action"
+                  >
+                    <CheckboxIndicator className="stroke-text h-4 w-4" />
+                  </Checkbox>
+                  <span className="text-text">Recurring</span>
+                </div>
+              </div>
               <Button
                 onClick={addActivity}
                 className="bg-action hover:bg-action/90"

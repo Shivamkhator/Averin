@@ -21,6 +21,7 @@ export function UnlockScreen() {
       const res = await fetch("/api/passkey/check")
       const data = await res.json()
       setHasPasskeys(data.hasPasskeys)
+      handleVerify()
     } catch (error) {
       console.error("Failed to check passkeys:", error)
       setHasPasskeys(false)

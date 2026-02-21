@@ -41,9 +41,3 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/generated/prisma
-
-# specific files to ignore
-/app/api/cron/period-reminder/route.ts
-/app/api/notify/action/route.ts
-/lib/emailTemplates.ts
-vercel.json

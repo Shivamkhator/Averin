@@ -144,6 +144,8 @@ export default function AskAverinPage({ user }: AverinClientProps) {
     const handleReset = () => {
         setConversationHistory([]);
         setQuestionCount(0);
+        setRoundedTop(true)
+
         setQuestion("");
     }
 
@@ -191,11 +193,11 @@ export default function AskAverinPage({ user }: AverinClientProps) {
     }
 
     return (
-        <div className="mx-auto min-h-screen max-w-5xl flex flex-col gap-2 md:p-8">
+        <div className="mx-auto min-h-screen max-w-5xl flex flex-col gap-2 md:p-8 ">
 
             {/* Header */}
             <div>
-                <div className="flex w-full max-w-5xl mx-auto flex-col gap-2">
+                <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 mb-4">
 
                     <Image
                         src={src}
@@ -309,7 +311,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                                 <Button
                                     onClick={handleReset}
                                     variant="ghost"
-                                    className="text-red-500 hover:bg-red-50 flex items-center gap-2"
+                                    className="text-red-500 hover:bg-red-500/70 hover:text-text flex items-center gap-2"
                                     size="sm"
                                 >
                                     <RotateCcw className="h-4 w-4" />
