@@ -14,8 +14,8 @@ interface ProvidersProps {
 export default function Providers({ 
   children, 
   attribute = "class", 
-  enableSystem = true, 
-  defaultTheme = "system" 
+  enableSystem = false, 
+  defaultTheme = "light" 
 }: ProvidersProps) {
   return (
     <SessionProvider>

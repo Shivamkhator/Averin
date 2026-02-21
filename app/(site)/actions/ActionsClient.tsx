@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { useTheme } from "next-themes"
 import {
   Card,
   CardContent,
@@ -21,6 +23,10 @@ type ActivityItem = {
 };
 
 export default function ActionsPage({ user }: { user: { name?: string | null } }) {
+  const { theme } = useTheme()
+  const src = theme === "dark" ? ("/banner_dark.png") : ("/banner_light.png");
+  const src_md = theme === "dark" ? ("/banner_dark_md.png") : ("/banner_light_md.png");
+
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [newActivityTitle, setNewActivityTitle] = useState("");
   const [loading, setLoading] = useState(true);
@@ -150,24 +156,42 @@ export default function ActionsPage({ user }: { user: { name?: string | null } }
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex w-full max-w-3xl mx-auto flex-col gap-6 p-4 md:p-8">
-        <div className="flex justify-center flex-col items-center">
-          <h1 className="text-3xl font-bold">Actions</h1>
-          <p className="text-sm text-text mt-1">
-            {activities.filter(t => !t.isCompleted).length} active, {activities.filter(t => t.isCompleted).length} completed
-          </p>
+    <div className="min-h-screen">
+      <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 md:p-8 ">
+
+        <div className="flex w-full max-w-5xl mx-auto flex-col gap-2">
+
+          <Image
+            src={src}
+            alt="Owl Banner"
+            width={1000}
+            height={250}
+            className="w-full block md:hidden"
+          />
+          <Image
+            src={src_md}
+            alt="Owl Banner"
+            width={1000}
+            height={200}
+            className="w-full rounded-t-2xl hidden md:block h-[36svh]"
+          />
         </div>
 
-        <Card className="bg-card-overlay">
-          <CardContent className="pt-6">
-            <div className="flex gap-2">
+        <Card className="bg-card-overlay border-0 m-4 md:m-0 md:-mt-2 md:rounded-t-none">
+          <CardContent className="pt-2">
+            <div className="flex gap-2 flex-col">
+
+              <div className="flex justify-center flex-col items-center">
+                <p className="text-sm text-text mt-1">
+                  {activities.filter(t => !t.isCompleted).length} Pending, {activities.filter(t => t.isCompleted).length} Completed
+                </p>
+              </div>
               <Input
                 placeholder="Add a new action..."
                 value={newActivityTitle}
                 onChange={(e) => setNewActivityTitle(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && addActivity()}
-                className="flex-1 border-overlay shadow-none focus:ring-0 focus:ring-offset-0"
+                className="flex-1 border-0 shadow-none focus:ring-0 focus:ring-offset-0"
               />
               <Button
                 onClick={addActivity}

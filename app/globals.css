@@ -48,7 +48,7 @@
   --sidebar-border: #e6e3dd;
   --sidebar-ring: #3447aa;
 }
-.dark {
+html.dark {
   --background: #0e0e0e;
   --foreground: #faf9f7;
 
@@ -148,7 +148,7 @@
   }
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"] {
+section.bg-foreground a[href*="instagram.com/weareskybee"] {
   all: unset;
   display: inline-block;
   cursor: pointer;
@@ -161,7 +161,7 @@ section.bg-action a[href*="instagram.com/weareskybee"] {
   overflow: visible;
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"]::before {
+section.bg-foreground a[href*="instagram.com/weareskybee"]::before {
   content: "";
   display: block;
   position: absolute;
@@ -177,7 +177,7 @@ section.bg-action a[href*="instagram.com/weareskybee"]::before {
   pointer-events: none;
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"] > span:nth-child(1) {
+section.bg-foreground a[href*="instagram.com/weareskybee"] > span:nth-child(1) {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -185,7 +185,7 @@ section.bg-action a[href*="instagram.com/weareskybee"] > span:nth-child(1) {
   background: transparent;
 }
 
-section.bg-action
+section.bg-foreground
   a[href*="instagram.com/weareskybee"]
   > span:nth-child(1)::before,
 section.bg-action
@@ -208,7 +208,7 @@ section.bg-action
 }
 
 /* Update the hover state */
-section.bg-action a[href*="instagram.com/weareskybee"]:hover {
+section.bg-foreground a[href*="instagram.com/weareskybee"]:hover {
   --icon-scale: 1;
   --icon-rotation: 15deg;
   --icon-opacity: 1;
@@ -217,7 +217,7 @@ section.bg-action a[href*="instagram.com/weareskybee"]:hover {
 }
 
 /* left-top heart */
-section.bg-action
+section.bg-foreground
   a[href*="instagram.com/weareskybee"]
   > span:nth-child(1)::before {
   top: -0.8em;
@@ -229,7 +229,7 @@ section.bg-action
 }
 
 /* right-bottom, blurred heart */
-section.bg-action
+section.bg-foreground
   a[href*="instagram.com/weareskybee"]
   > span:nth-child(1)::after {
   top: 1em;
@@ -241,7 +241,7 @@ section.bg-action
   z-index: 0;
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"] > span:nth-child(2) {
+section.bg-foreground a[href*="instagram.com/weareskybee"] > span:nth-child(2) {
   position: relative;
   z-index: 2;
   display: inline-block;
@@ -250,7 +250,7 @@ section.bg-action a[href*="instagram.com/weareskybee"] > span:nth-child(2) {
   transition: transform 0.2s ease;
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"]:hover::before {
+section.bg-foreground a[href*="instagram.com/weareskybee"]:hover::before {
   transform: scale(1.05);
   background: linear-gradient(
     to bottom right,
@@ -260,7 +260,7 @@ section.bg-action a[href*="instagram.com/weareskybee"]:hover::before {
   box-shadow: 0 4px 22px -8px rgba(120, 60, 160, 0.5);
 }
 
-section.bg-action
+section.bg-foreground
   a[href*="instagram.com/weareskybee"]:hover
   > span:nth-child(1)::before,
 section.bg-action
@@ -270,17 +270,17 @@ section.bg-action
   transform: scale(1);
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"]:active {
+section.bg-foreground a[href*="instagram.com/weareskybee"]:active {
   transform: scale(0.99);
 }
 
-section.bg-action a[href*="instagram.com/weareskybee"]:active::before {
+section.bg-foreground a[href*="instagram.com/weareskybee"]:active::before {
   transform: scale(0.95);
   box-shadow: 0 2px 12px rgba(120, 60, 160, 0.35);
 }
 
 @media (min-width: 768px) {
-  section.bg-action a[href*="instagram.com/weareskybee"] {
+  section.bg-foreground a[href*="instagram.com/weareskybee"] {
     font-size: 1.05rem;
     padding: 0.75rem 1.6rem;
   }

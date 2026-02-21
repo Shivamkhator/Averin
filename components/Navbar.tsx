@@ -143,7 +143,7 @@ export default function Navbar() {
   }, [canInstall, visibleItems, install, icons.install])
   return (
     <>
-      <div className="hidden md:block w-full fixed bg-[#2F4F4F] top-0 z-99 backdrop-blur-md border-b border-white/10 text-sm">
+      <div className="hidden md:block w-full fixed bg-[#2F4F4F] top-0 z-999 backdrop-blur-md border-b border-white/10 text-sm">
         <nav className="h-12 flex items-center mx-8 w-full justify-between">
 
           <div className="flex items-center justify-center">
@@ -215,7 +215,7 @@ export default function Navbar() {
         </nav>
       </div>
 
-      <nav className="md:hidden gap-4 fixed bottom-6 left-1/2 -translate-x-1/2 h-16 px-2 bg-action backdrop-blur-xl rounded-full border border-black/30 shadow-xl z-99 flex justify-around items-center">
+      <nav className="md:hidden gap-4 fixed bottom-6 left-1/2 -translate-x-1/2 h-16 px-2 bg-action backdrop-blur-xl rounded-full border border-black/30 shadow-xl z-999 flex justify-around items-center">
         {
           visbleMobileItems.map((item) => {
             const active = isActive(item.path)

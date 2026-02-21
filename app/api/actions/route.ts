@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { hashEmail } from "@/lib/crypto";
+import { embedAction } from "@/lib/embeddings";
 
 // GET all actions for current user
 export async function GET(req: NextRequest) {
@@ -63,6 +64,7 @@ export async function POST(req: NextRequest) {
         isCompleted,
       },
     });
+    await embedAction(action);
 
     return NextResponse.json(action);
   } catch (error) {

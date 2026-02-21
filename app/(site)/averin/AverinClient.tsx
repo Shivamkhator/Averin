@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react"
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button"
@@ -12,7 +13,8 @@ import { ChevronRightIcon, Brain, RotateCcw, AlertCircle } from "lucide-react"
 import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Session } from "next-auth"
-import { text } from "stream/consumers";
+import { useTheme } from "next-themes"
+
 
 type AverinClientProps = {
     user: Session["user"];
@@ -33,8 +35,15 @@ export default function AskAverinPage({ user }: AverinClientProps) {
     const [loadingVault, setLoadingVault] = useState(true);
     const [conversationHistory, setConversationHistory] = useState<Message[]>([]);
     const [questionCount, setQuestionCount] = useState(0);
+    const [roundedTop, setRoundedTop] = useState(true);
 
     const router = useRouter()
+    const { theme } = useTheme()
+
+
+
+    const src = theme === "dark" ? ("/banner_dark.png") : ("/banner_light.png");
+    const src_md = theme === "dark" ? ("/banner_dark_md.png") : ("/banner_light_md.png");
 
     const bottomRef = useRef<HTMLDivElement | null>(null);
 
@@ -88,6 +97,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
     const handleAsk = async () => {
         if (!question.trim()) return
         if (questionCount >= MAX_QUESTIONS) return
+        setRoundedTop(false)
 
         setLoading(true)
         const currentQuestion = question.trim();
@@ -139,38 +149,27 @@ export default function AskAverinPage({ user }: AverinClientProps) {
 
     if (!insights) {
         return (
-            <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 p-4 md:p-8">
+            <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 md:p-8">
 
                 {/* Header */}
-                <div className="relative mb-4 overflow-hidden rounded-2xl bg-primary p-8 text-white">
 
-                    <div className="pointer-events-none absolute -top-1/2 -right-[10%] h-50 w-75 rounded-full bg-green-700/20"></div>
-                    <div className="pointer-events-none absolute -bottom-[30%] -left-[5%] h-50 w-50 rounded-full bg-green-700/20"></div>
+                <div className="flex w-full max-w-5xl mx-auto flex-col gap-2">
 
-                    <div className="relative z-10">
-                        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                            <div>
-                                <div className="mb-2 text-2xl md:text-3xl font-semibold">
-                                    <span className="items-center gap-2">
-                                        Get Clarity with Averin
-                                    </span>
-                                </div>
-                                <p className="opacity-70 text-sm flex items-center gap-1">
-                                    Add more data to unlock the ability to chat with your assistant
-                                </p>
-                            </div>
+                    <Image
+                        src={src}
+                        alt="Owl Banner"
+                        width={1000}
+                        height={250}
+                        className="w-full block md:hidden"
+                    />
+                    <Image
+                        src={src_md}
+                        alt="Owl Banner"
+                        width={1000}
+                        height={200}
+                        className="w-full rounded-2xl hidden md:block h-[36svh]"
+                    />
 
-                            <div className="text-left md:text-right">
-
-                                <Button onClick={() => router.push("/vault")} className="bg-white/20 hover:bg-white/30 text-white font-medium h-10 flex items-center gap-2">
-                                    Vault
-                                    <ChevronRightIcon className="h-4 w-4" />
-                                </Button>
-
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
                 {loadingVault ? (
                     <div className=" flex flex-col bg-card-overlay backdrop-blur-sm border-pink-100 rounded-2xl p-4 md:p-6 lg:col-span-5 lg:row-span-2">
@@ -192,39 +191,31 @@ export default function AskAverinPage({ user }: AverinClientProps) {
     }
 
     return (
-        <div className="mx-auto min-h-screen max-w-5xl px-4 py-4 md:py-8 flex flex-col gap-2 mb-20">
+        <div className="mx-auto min-h-screen max-w-5xl flex flex-col gap-2 md:p-8">
 
             {/* Header */}
             <div>
-                <div className="relative overflow-hidden rounded-2xl bg-primary p-8 text-white mb-4">
-                    <div className="pointer-events-none absolute -top-1/2 -right-[10%] h-50 w-75 rounded-full bg-green-700/20"></div>
-                    <div className="pointer-events-none absolute -bottom-[30%] -left-[5%] h-50 w-50 rounded-full bg-green-700/20"></div>
+                <div className="flex w-full max-w-5xl mx-auto flex-col gap-2">
 
-                    <div className="relative z-10">
-                        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                            <div>
-                                <div className="mb-2 text-2xl md:text-3xl font-semibold">
-                                    <span className="items-center gap-2">
-                                        Get Clarity with Averin
-                                    </span>
-                                </div>
-                                <p className="opacity-70 text-sm flex items-center gap-1">
-                                    Track more cycles to make your AI Assistant smarter
-                                </p>
-                            </div>
+                    <Image
+                        src={src}
+                        alt="Owl Banner"
+                        width={1000}
+                        height={250}
+                        className="w-full block md:hidden"
+                    />
+                    <Image
+                        src={src_md}
+                        alt="Owl Banner"
+                        width={1000}
+                        height={200}
+                        className="w-full rounded-t-2xl hidden md:block h-[36svh]"
+                    />
 
-                            <div className="text-left md:text-right">
-                                <Button onClick={() => router.push("/vault")} className="bg-white/20 hover:bg-white/30 text-white font-medium h-10 flex items-center gap-2">
-                                    Vault
-                                    <ChevronRightIcon className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <div className="flex-1 pb-4 space-y-4">
+            <div className="flex-1 pb-4 space-y-2 -mt-4 md:-mt-6">
 
                 {/* Conversation History */}
                 {conversationHistory.length > 0 && (
@@ -242,14 +233,14 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                                     className={`
     rounded-2xl border
     ${msg.role === "user"
-                                            ? "ml-auto bg-card-overlay border-overlay shadow-sm"
+                                            ? `ml-auto bg-card-overlay border-overlay shadow-sm ${idx == 0 && 'md:rounded-t-none border-t-0'}`
                                             : "mr-auto bg-overlay border-overlay shadow"}
-    max-w-[85%]
+    max-w-[84%]
   `}
                                 >
 
-                                    <CardContent className={`p-4 md:p-6`}>
-                                        <div className="flex items-start gap-3">
+                                    <CardContent className={`p-4`}>
+                                        <div className="flex items-start gap-2">
                                             <div className="flex-1">
                                                 <p className="text-xs font-semibold text-text mb-1">
                                                     {msg.role === 'user' ? 'You' : 'Averin'} • {msg.time}
@@ -262,7 +253,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                                                 >
                                                     <ReactMarkdown
                                                         components={{
-                                                            p: ({ node, ...props }) => <p className="my-1" {...props} />,
+                                                            p: ({ node, ...props }) => <p className="" {...props} />,
                                                             ul: ({ node, ...props }) => (
                                                                 <ul className="list-disc pl-4 my-1" {...props} />
                                                             ),
@@ -288,13 +279,12 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                     </>
                 )}
 
-
                 {/* Loading State */}
                 {loading && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="mr-auto bg-overlay border border-overlay rounded-2xl px-4 py-3 w-fit shadow"
+                        className={`mr-auto bg-overlay border border-overlay rounded-2xl px-4 py-3 w-fit shadow-sm ${questionCount == 0 && 'rounded-t-none'}`}
                     >
                         <p className="text-sm text-text">
                             Averin is typing<span className="animate-pulse">...</span>
@@ -302,11 +292,9 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                     </motion.div>
                 )}
 
-
-
                 {/* Chat Card */}
-                <Card className="bg-overlay border-card-overlay backdrop-blur-xl rounded-2xl h-fit">
-                    <CardContent className="p-5 md:p-8 space-y-3">
+                <Card className={`bg-overlay border-card-overlay backdrop-blur-xl rounded-3xl ${roundedTop && 'md:rounded-t-none'} h-fit p-2`}>
+                    <CardContent className="p-2 space-y-3">
                         {/* Question Counter and Reset */}
                         {questionCount > 0 && (<div className="flex items-center justify-between sticky top-0 z-10">
                             <div className="flex items-center gap-2">
@@ -333,7 +321,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
 
 
                         {/* Input */}
-                        <div className="flex flex-col sm:flex-row gap-3 bg-overlay/70 p-3 rounded-xl border border-overlay">
+                        <div className="flex flex-col sm:flex-row gap-2 bg-overlay/70 p-2 rounded-lg border border-overlay">
                             <Input
                                 placeholder="Ask anything to Averin..."
                                 value={question}
@@ -346,7 +334,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                             <Button
                                 onClick={handleAsk}
                                 disabled={loading || questionCount >= MAX_QUESTIONS}
-                                className="h-12 px-6 bg-primary/90 text-white flex items-center gap-2 active:scale-95 transition rounded-md"
+                                className="h-12 px-8 bg-action text-white flex items-center gap-2 active:scale-105 transition rounded-md"
                             >
                                 <Brain className="h-4 w-4" />
                                 {loading ? "Thinking..." : "Ask"}

@@ -49,7 +49,6 @@ export default function CheckEmailPage() {
     ];
 
 
-
     const rand = new Date().getDay();
 
     return (

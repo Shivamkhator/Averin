@@ -10,7 +10,7 @@ export default function SiteLayout({
     <>
       <Navbar />
       <ThemeToggle />
-      <div className="md:mt-16">
+      <div className="md:mt-8">
         {children}
       </div>
     </>

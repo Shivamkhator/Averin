@@ -241,7 +241,7 @@ function CarouselSlide({ feature, index, totalSlides, scrollYProgress }: any) {
 function FooterSection() {
     const { data: session } = useSession();
     return (
-        <section className="h-[60svh] bg-action flex flex-col items-center justify-center text-center p-12">
+        <section className="h-[60svh] bg-foreground flex flex-col items-center justify-center text-center p-12">
             <PreviewCard>
                 <PreviewCardTrigger
                     render={
@@ -282,7 +282,7 @@ function FooterSection() {
                 <Link
                     href="/login"
                     className="py-4 w-[32vw] lg:w-[12vw] 
-             border border-foreground/40 text-white font-bold rounded-full hover:bg-overlay
+             border border-background/70 text-white bg-action/70 font-bold rounded-full hover:bg-action hover:scale-105 transition-all duration-200 text-sm 
              md:text-lg"
                 >
                     Get Started

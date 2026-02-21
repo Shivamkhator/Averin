@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useState, useEffect, useMemo, JSX } from "react";
 import {
     Tabs,
@@ -15,7 +16,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { ChevronDown, ChevronRightIcon, Trash2, Save, TrendingUp, Activity, FileText, FileSpreadsheet, FileX, Image } from "lucide-react";
+import { ChevronDown, ChevronRightIcon, Trash2, Save, TrendingUp, Activity, FileText, FileSpreadsheet, FileX } from "lucide-react";
 import {
     Popover,
     PopoverContent,
@@ -27,6 +28,8 @@ import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import { useDropzone } from "react-dropzone";
+import { useTheme } from "next-themes"
+
 
 type VaultClientProps = {
     user: Session["user"];
@@ -86,6 +89,8 @@ const VaultIcon: JSX.Element = (
 )
 
 export default function VaultClient({ user }: VaultClientProps) {
+    const { theme } = useTheme()
+
     const [emailEnabled, setEmailEnabled] = React.useState(false);
     const [savingEmailPref, setSavingEmailPref] = React.useState(false);
 
@@ -104,6 +109,9 @@ export default function VaultClient({ user }: VaultClientProps) {
     const [links, setLinks] = useState<{ id: string; url: string; title?: string }[]>([]);
     const [activeNote, setActiveNote] = useState<Note | null>(null);
     const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+
+    const src = theme === "dark" ? ("/banner_dark.png") : ("/banner_light.png");
+    const src_md = theme === "dark" ? ("/banner_dark_md.png") : ("/banner_light_md.png");
 
 
     const router = useRouter();
@@ -165,7 +173,7 @@ export default function VaultClient({ user }: VaultClientProps) {
 
 
     async function deleteNote(id: string) {
-        setNotes(prev => prev.filter(n => n.id !== id)); 0
+        setNotes(prev => prev.filter(n => n.id !== id));
 
         await fetch(`/api/vault/notes/${id}`, {
             method: "DELETE",
@@ -249,88 +257,29 @@ export default function VaultClient({ user }: VaultClientProps) {
 
     return (
         <div className="min-h-screen">
+            <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 md:p-8">
+
+                <Image
+                    src={src}
+                    alt="Owl Banner"
+                    width={1000}
+                    height={250}
+                    className="w-full block md:hidden"
+                />
+                <Image
+                    src={src_md}
+                    alt="Owl Banner"
+                    width={1000}
+                    height={200}
+                    className="w-full rounded-t-2xl hidden md:block h-[36svh]"
+                />
+
+            </div>
             <div className="flex w-full max-w-5xl mx-auto flex-col gap-2 p-4 md:p-8">
-
-                {/* Header */}
-                <div className="relative overflow-hidden rounded-2xl bg-action p-8">
-
-                    <div className="pointer-events-none absolute -top-1/2 -right-[10%] h-50 w-50 rounded-full bg-green-700/20"></div>
-                    <div className="pointer-events-none absolute -bottom-[30%] -left-[5%] h-50 w-50 rounded-full bg-green-700/20"></div>
-
-                    <div className="relative z-10">
-                        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-                            <div>
-                                <div className="mb-2 text-2xl md:text-3xl font-semibold text-text">
-                                    <span className="items-center gap-2">
-                                        {greeting}, {user.name?.split(" ")[0] || "User"}!
-                                    </span>
-                                </div>
-                                <p className="opacity-70 text-sm flex items-center gap-1">
-                                    "Your insights are ready to be explored"
-                                </p>
-                            </div>
-
-                            <div className="text-left md:text-right">
-                                <Button onClick={() => router.push("/insights")} className="text-white font-medium h-10 flex items-center gap-2">
-                                    View Insights
-                                    <ChevronRightIcon className=" hidden md:block h-4 w-4" />
-                                </Button>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mb-4 rounded-xl border border-white-500 bg-overlay px-4 py-3 flex items-center justify-between">
-                    <div>
-                        <p className="text-sm font-semibold">
-                            Email reminders
-                        </p>
-                        <p className="text-xs opacity-50">
-                            Get notified
-                        </p>
-                    </div>
-                    <button
-                        onClick={async () => {
-                            const next = !emailEnabled;
-                            setEmailEnabled(next);
-                            setSavingEmailPref(true);
-
-                            try {
-                                const res = await fetch("/api/user/email-preference", {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({ enabled: next }),
-                                });
-
-                                if (!res.ok) {
-                                    // rollback on failure
-                                    setEmailEnabled(!next);
-                                }
-                            } catch {
-                                setEmailEnabled(!next);
-                            } finally {
-                                setSavingEmailPref(false);
-                            }
-                        }}
-                        disabled={savingEmailPref}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition
-    ${emailEnabled ? "bg-action" : "bg-gray-primary border border-gray-primary opacity-50"}
-    ${savingEmailPref ? "cursor-not-allowed" : ""}
-  `}
-                    >
-                        <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-background transition
-      ${emailEnabled ? "translate-x-6" : "translate-x-1"}
-    `}
-                        />
-                    </button>
-                </div>
 
 
                 {/* Main Tabs */}
-                <Tabs defaultValue="notes" className="w-full">
+                <Tabs defaultValue="notes" className="w-full md:-mt-16">
                     <TabsList className="w-full bg-overlay backdrop-blur-sm">
                         <TabsTrigger value="notes" className="data-[state=active]:text-background dark:data-[state=active]:text-white rounded-2xl">
                             Notes
@@ -343,12 +292,12 @@ export default function VaultClient({ user }: VaultClientProps) {
                         </TabsTrigger>
                     </TabsList>
 
-                    <Card className="bg-overlay border border-overlay backdrop-blur-sm">
+                    <Card className="bg-overlay rounded-2xl border border-overlay backdrop-blur-sm">
                         <TabsContents>
                             <TabsContent value="notes">
 
                                 <CardContent>
-                                    <div className="space-y-4 mt-4 mb-4">
+                                    <div className="space-y-2 mt-6 mb-6">
 
                                         {/* Title */}
                                         <Input
@@ -528,7 +477,7 @@ export default function VaultClient({ user }: VaultClientProps) {
 
                             <TabsContent value="links">
                                 <CardContent>
-                                    <div className="space-y-4">
+                                    <div className="space-y-2">
 
                                         {/* Optional title */}
                                         <Input
@@ -620,109 +569,111 @@ export default function VaultClient({ user }: VaultClientProps) {
                 </Tabs>
 
             </div>
-            {isNoteModalOpen && activeNote && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background backdrop-blur-sm">
+            {
+                isNoteModalOpen && activeNote && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background backdrop-blur-sm">
 
-                    <div className="w-full max-w-2xl rounded-xl bg-card-overlay border border-overlay p-6 shadow-xl">
+                        <div className="w-full max-w-2xl rounded-xl bg-card-overlay border border-overlay p-6 shadow-xl">
 
-                        <div className="flex items-start justify-between mb-4">
-                            <div>
-                                <h2 className="text-lg font-semibold">
-                                    {activeNote.title || "Untitled"}
-                                </h2>
-                                <p className="text-xs opacity-60">
-                                    {formatDate(new Date(activeNote.createdAt))}
-                                </p>
-                            </div>
+                            <div className="flex items-start justify-between mb-4">
+                                <div>
+                                    <h2 className="text-lg font-semibold">
+                                        {activeNote.title || "Untitled"}
+                                    </h2>
+                                    <p className="text-xs opacity-60">
+                                        {formatDate(new Date(activeNote.createdAt))}
+                                    </p>
+                                </div>
 
-                            <Button
-                                size="icon"
-                                variant="ghost"
-                                onClick={() => {
-                                    setIsNoteModalOpen(false);
-                                    setActiveNote(null);
-                                }}
-                            >
-                                ✕
-                            </Button>
-                        </div>
-
-                        {isEditingNote ? (
-                            <div className="space-y-3">
-                                <Input
-                                    value={editTitle}
-                                    onChange={(e) => setEditTitle(e.target.value)}
-                                    placeholder="Title"
-                                    className="bg-overlay border-overlay"
-                                />
-
-                                <Textarea
-                                    value={editBody}
-                                    onChange={(e) => setEditBody(e.target.value)}
-                                    className="min-h-75 bg-overlay border-overlay"
-                                />
-                            </div>
-                        ) : (
-                            <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed">
-                                {activeNote.body}
-                            </div>
-                        )}
-
-
-                        <div className="flex justify-between items-center mt-6">
-                            <div className="flex gap-2">
                                 <Button
-                                    variant="outline"
-                                    onClick={() => setIsEditingNote(prev => !prev)}
+                                    size="icon"
+                                    variant="ghost"
+                                    onClick={() => {
+                                        setIsNoteModalOpen(false);
+                                        setActiveNote(null);
+                                    }}
                                 >
-                                    {isEditingNote ? "Cancel" : "Edit"}
+                                    ✕
                                 </Button>
-                                {isEditingNote && activeNote?.id && (
+                            </div>
+
+                            {isEditingNote ? (
+                                <div className="space-y-3">
+                                    <Input
+                                        value={editTitle}
+                                        onChange={(e) => setEditTitle(e.target.value)}
+                                        placeholder="Title"
+                                        className="bg-overlay border-overlay"
+                                    />
+
+                                    <Textarea
+                                        value={editBody}
+                                        onChange={(e) => setEditBody(e.target.value)}
+                                        className="min-h-75 bg-overlay border-overlay"
+                                    />
+                                </div>
+                            ) : (
+                                <div className="max-h-[60vh] overflow-y-auto whitespace-pre-wrap text-sm leading-relaxed">
+                                    {activeNote.body}
+                                </div>
+                            )}
+
+
+                            <div className="flex justify-between items-center mt-6">
+                                <div className="flex gap-2">
                                     <Button
-                                        onClick={async () => {
-                                            if (!activeNote?.id) return;
-
-                                            const res = await fetch(`/api/vault/notes/${activeNote.id}`, {
-                                                method: "PUT",
-                                                headers: { "Content-Type": "application/json" },
-                                                body: JSON.stringify({
-                                                    title: editTitle,
-                                                    body: editBody,
-                                                }),
-                                            });
-
-                                            if (res.ok) {
-                                                setNotes(prev =>
-                                                    prev.map(n =>
-                                                        n.id === activeNote.id
-                                                            ? { ...n, title: editTitle, body: editBody }
-                                                            : n
-                                                    )
-                                                );
-                                                setActiveNote(prev =>
-                                                    prev ? { ...prev, title: editTitle, body: editBody } : prev
-                                                );
-                                                setIsEditingNote(false);
-                                            }
-                                        }}
+                                        variant="outline"
+                                        onClick={() => setIsEditingNote(prev => !prev)}
                                     >
-                                        Save Changes
+                                        {isEditingNote ? "Cancel" : "Edit"}
                                     </Button>
-                                )}
+                                    {isEditingNote && activeNote?.id && (
+                                        <Button
+                                            onClick={async () => {
+                                                if (!activeNote?.id) return;
 
-                                <Button
-                                    variant="destructive"
-                                    onClick={() => deleteNote(activeNote.id)}
-                                >
-                                    <Trash2 className="h-4 w-4 mr-2" />
-                                    Delete
-                                </Button>
+                                                const res = await fetch(`/api/vault/notes/${activeNote.id}`, {
+                                                    method: "PUT",
+                                                    headers: { "Content-Type": "application/json" },
+                                                    body: JSON.stringify({
+                                                        title: editTitle,
+                                                        body: editBody,
+                                                    }),
+                                                });
+
+                                                if (res.ok) {
+                                                    setNotes(prev =>
+                                                        prev.map(n =>
+                                                            n.id === activeNote.id
+                                                                ? { ...n, title: editTitle, body: editBody }
+                                                                : n
+                                                        )
+                                                    );
+                                                    setActiveNote(prev =>
+                                                        prev ? { ...prev, title: editTitle, body: editBody } : prev
+                                                    );
+                                                    setIsEditingNote(false);
+                                                }
+                                            }}
+                                        >
+                                            Save Changes
+                                        </Button>
+                                    )}
+
+                                    <Button
+                                        variant="destructive"
+                                        onClick={() => deleteNote(activeNote.id)}
+                                    >
+                                        <Trash2 className="h-4 w-4 mr-2" />
+                                        Delete
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
         </div >
     );

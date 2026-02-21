@@ -42,10 +42,11 @@ function ActivityList({ activities, onToggle, onDelete }: ActivityListProps) {
     }
   }
   return (
-    <div className="bg-overlay rounded-2xl p-6 space-y-6">
+    <div className="bg-overlay rounded-2xl p-6 space-y-6 mx-4 md:m-0">
       {activities.map((item, idx) => (
         <div key={item.id} className="space-y-6">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 justify-between">
+            <div className="flex items-center space-x-3">
             <Checkbox
               checked={item.isCompleted}
               onCheckedChange={() => onToggle(item.id)}
@@ -56,7 +57,7 @@ function ActivityList({ activities, onToggle, onDelete }: ActivityListProps) {
 
 
             <div className="relative inline-block">
-              <Label className='text-text' htmlFor={`checkbox-${item.id}`}>{item.title}</Label>
+              <Label className='text-text/80' htmlFor={`checkbox-${item.id}`}>{item.title}</Label>
               {item.isRecurring && (
                 <span className="text-text/60 text-sm ml-2">Recurring</span>
               )}
@@ -82,11 +83,12 @@ function ActivityList({ activities, onToggle, onDelete }: ActivityListProps) {
               </motion.svg>
 
             </div>
+            </div>
 
             {onDelete && (
               <button
                 onClick={() => onDelete(item.id)}
-                className="absolute right-12 text-red-600/80 hover:text-red-600 transition-colors"
+                className=" text-red-600/80 hover:text-red-600 transition-colors"
                 aria-label="Delete activity"
               >
                 <Trash2 className="h-5 w-5" />

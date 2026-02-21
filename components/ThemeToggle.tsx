@@ -12,7 +12,7 @@ interface AnimatedThemeTogglerProps {
 }
 
 export const ThemeToggle = ({ duration = 400 }: AnimatedThemeTogglerProps) => {
-  const { setTheme, resolvedTheme } = useTheme()
+  const { setTheme, theme } = useTheme()
   const [isMac, setIsMac] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -20,7 +20,7 @@ export const ThemeToggle = ({ duration = 400 }: AnimatedThemeTogglerProps) => {
 
   const toggleTheme = useCallback(async () => {
     if (!buttonRef.current || !mounted) return
-        const newTheme = resolvedTheme === "dark" ? "light" : "dark"
+        const newTheme = theme === "dark" ? "light" : "dark"
 
 
     if (!document.startViewTransition) {
@@ -56,7 +56,7 @@ export const ThemeToggle = ({ duration = 400 }: AnimatedThemeTogglerProps) => {
         pseudoElement: "::view-transition-new(root)",
       }
     )
-  }, [resolvedTheme, duration, setTheme, mounted])
+  }, [theme, duration, setTheme, mounted])
 
   
   useEffect(() => {
@@ -80,11 +80,11 @@ export const ThemeToggle = ({ duration = 400 }: AnimatedThemeTogglerProps) => {
 
   if(!mounted) return null
 
-  const isDark = resolvedTheme === "dark"
+  const isDark = theme === "dark"
 
   return (
     <>
-      <div className="fixed z-50 top-4 right-4 md:top-auto md:bottom-6 md:right-6 group">
+      <div className="fixed z-40 top-4 right-4 md:top-auto md:bottom-6 md:right-6 group">
         <button
           ref={buttonRef}
           onClick={toggleTheme}

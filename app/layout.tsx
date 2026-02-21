@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Toaster } from "sonner";
+import AppToaster from "@/components/AppToaster";
 import Providers from "@/components/Providers";
 import "./globals.css";
 import { Inter, Manrope } from "next/font/google";
@@ -53,15 +53,11 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <InstallPrompt />
-        <Providers attribute="class" enableSystem defaultTheme="system">
+        <Providers attribute="class" defaultTheme="light">
+          <AppToaster />
           {children}
         </Providers>
-        <Toaster
-          position="top-center"
-          swipeDirections={['left', 'right']}
-          offset={{ top: 72 }}
-          richColors
-        />
+        
       </body>
     </html>
   );

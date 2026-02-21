@@ -2,21 +2,19 @@
 import "server-only";
 import { prisma } from "./prisma";
 import { GoogleGenAI } from "@google/genai";
-import { GoogleGenerativeAI } from "@google/generative-ai"
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function createEmbedding(text: string): Promise<number[]> {
   const model = genAI.getGenerativeModel({
     model: "gemini-embedding-001",
-  })
+  });
 
-  const result = await model.embedContent(text)
+  const result = await model.embedContent(text);
 
-  return result.embedding.values
+  return result.embedding.values;
 }
-
 
 // ---------- NOTE EMBEDDING ----------
 
@@ -92,6 +90,31 @@ export async function embedLink(link: {
     link.userId,
     "link",
     link.id,
+    content,
+    vectorString,
+  );
+}
+
+// ---------- ACTIONS EMBEDDING ----------
+export async function embedAction(action: {
+  id: string;
+  userId: string;
+  title: string;
+  isRecurring: boolean;
+  isCompleted: boolean;
+}) {
+  const content = `Action: ${action.title} — ${action.isRecurring ? "Recurring" : "One-time"} — ${action.isCompleted ? "Completed" : "Not completed"}`;
+
+  const vector = await createEmbedding(content);
+  const vectorString = `[${vector.join(",")}]`;
+
+  await prisma.$queryRawUnsafe(
+    `INSERT INTO "Embedding"
+      ("id", "userId", "source", "sourceId", "content", "vector", "createdAt")
+     VALUES (gen_random_uuid()::text, $1, $2, $3, $4, $5::vector, NOW())`,
+    action.userId,
+    "action",
+    action.id,
     content,
     vectorString,
   );
