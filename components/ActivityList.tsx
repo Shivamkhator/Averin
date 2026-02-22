@@ -35,7 +35,7 @@ function ActivityList({ activities, onToggle, onDelete }: ActivityListProps) {
   {
     if (activities.length === 0) {
       return (
-        <div className="bg-card-overlay rounded-2xl p-6 text-center text-text mx-4">
+        <div className="bg-card-overlay rounded-2xl p-6 text-center text-text mx-4 md:mx-0">
           No activities to display
         </div>
       );

@@ -174,7 +174,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
 
                 </div>
                 {loadingVault ? (
-                    <div className=" flex flex-col bg-card-overlay backdrop-blur-sm border-pink-100 rounded-2xl p-4 md:p-6 lg:col-span-5 lg:row-span-2">
+                    <div className=" flex flex-col bg-card-overlay backdrop-blur-sm border-pink-100 rounded-2xl p-4 md:p-6 lg:col-span-5 lg:row-span-2 mx-4 md:mx-0">
                         <div className="flex flex-col items-center justify-center h-[40svh]">
                             <video src="/Loader.webm" className="mx-auto w-16 h-16" autoPlay loop muted />
                         </div>
@@ -233,7 +233,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                                 <Card
                                     key={idx}
                                     className={`
-    rounded-2xl border mx-4
+    rounded-2xl border mx-4 md:mx-0
     ${msg.role === "user"
                                             ? `ml-auto bg-card-overlay border-overlay shadow-sm ${idx == 0 && 'md:rounded-t-none border-t-0'}`
                                             : "mr-auto bg-overlay border-overlay shadow"}
@@ -286,7 +286,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className={`mr-auto bg-overlay border border-overlay rounded-2xl px-4 py-3 mx-4 w-fit shadow-sm ${questionCount == 0 && 'rounded-t-none'}`}
+                        className={`mr-auto bg-overlay border border-overlay rounded-2xl px-4 py-3 mx-4 md:mx-0 w-fit shadow-sm ${questionCount == 0 && 'rounded-t-none'}`}
                     >
                         <p className="text-sm text-text">
                             Averin is typing<span className="animate-pulse">...</span>
@@ -295,7 +295,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                 )}
 
                 {/* Chat Card */}
-                <Card className={`bg-overlay border-card-overlay backdrop-blur-xl rounded-3xl ${roundedTop && 'md:rounded-t-none'} h-fit p-2 mx-4`}>
+                <Card className={`bg-overlay border-card-overlay backdrop-blur-xl rounded-3xl ${roundedTop && 'md:rounded-t-none'} h-fit p-2 mx-4 md:mx-0`}>
                     <CardContent className="p-2 space-y-3">
                         {/* Question Counter and Reset */}
                         {questionCount > 0 && (<div className="flex items-center justify-between sticky top-0 z-10">
