@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { startRegistration, startAuthentication } from "@simplewebauthn/browser"
 import { setLockState } from "@/lib/passkeyLock"
@@ -11,6 +11,7 @@ export function UnlockScreen() {
   const [hasPasskeys, setHasPasskeys] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const pathname = usePathname() ?? "/"
   const { data: session } = useSession()
   const autoVerifyAttempted = useRef(false)
 
@@ -18,9 +19,9 @@ export function UnlockScreen() {
     const lock = JSON.parse(localStorage.getItem("passkeyLock") || "null")
 
     if (lock?.isUnlocked) {
-      router.replace("")
+      router.replace(pathname)
     }
-  }, [router])
+  }, [router, pathname])
 
   useEffect(() => {
     checkPasskeys()
@@ -73,7 +74,7 @@ export function UnlockScreen() {
           unlockedAt: Date.now(),
           userId: session?.user?.id
         })
-        router.replace("")
+        router.replace(pathname)
       } else {
         const err = await verifyRes.text()
         setIsVerifying(false)
@@ -112,7 +113,7 @@ export function UnlockScreen() {
           unlockedAt: Date.now(),
           userId: session?.user?.id
         })
-        router.replace("")
+        router.replace(pathname)
       } else {
         const err = await verifyRes.text()
         setIsVerifying(false)
