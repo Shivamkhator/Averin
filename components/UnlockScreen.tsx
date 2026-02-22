@@ -11,7 +11,6 @@ export function UnlockScreen() {
   const [hasPasskeys, setHasPasskeys] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
-  const pathname = usePathname() ?? "/"
   const { data: session } = useSession()
   const autoVerifyAttempted = useRef(false)
 
@@ -19,9 +18,9 @@ export function UnlockScreen() {
     const lock = JSON.parse(localStorage.getItem("passkeyLock") || "null")
 
     if (lock?.isUnlocked) {
-      router.replace(pathname)
+      router.replace("/")
     }
-  }, [router, pathname])
+  }, [router])
 
   useEffect(() => {
     checkPasskeys()
@@ -74,7 +73,7 @@ export function UnlockScreen() {
           unlockedAt: Date.now(),
           userId: session?.user?.id
         })
-        router.replace(pathname)
+        router.replace("/")
       } else {
         const err = await verifyRes.text()
         setIsVerifying(false)
@@ -113,7 +112,7 @@ export function UnlockScreen() {
           unlockedAt: Date.now(),
           userId: session?.user?.id
         })
-        router.replace(pathname)
+        router.replace("/")
       } else {
         const err = await verifyRes.text()
         setIsVerifying(false)
