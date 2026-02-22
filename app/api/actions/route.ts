@@ -24,13 +24,16 @@ export async function GET(req: NextRequest) {
 
     const actions = await prisma.actions.findMany({
       where: { userId: user.id },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(actions);
   } catch (error) {
     console.error("Error fetching actions:", error);
-    return NextResponse.json({ error: "Failed to fetch actions" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch actions" },
+      { status: 500 },
+    );
   }
 }
 
@@ -50,7 +53,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const { title, isRecurring = false, isCompleted = false } = await req.json();
+    const {
+      title,
+      isRecurring = false,
+      isCompleted = false,
+    } = await req.json();
 
     if (!title || !title.trim()) {
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
@@ -69,6 +76,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(action);
   } catch (error) {
     console.error("Error creating action:", error);
-    return NextResponse.json({ error: "Failed to create action" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create action" },
+      { status: 500 },
+    );
   }
 }

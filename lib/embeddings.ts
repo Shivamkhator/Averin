@@ -120,6 +120,23 @@ export async function embedAction(action: {
   );
 }
 
+// ---------- DELETE EMBEDDINGS ----------
+export async function deleteEmbeddingsBySource(
+  userId: string,
+  source: string,
+  sourceId: string
+) {
+  await prisma.$executeRawUnsafe(
+    `DELETE FROM "Embedding"
+      WHERE "userId" = $1
+        AND "source" = $2
+        AND "sourceId" = $3`,
+    userId,
+    source,
+    sourceId,
+  );
+}
+
 // ---------- SEMANTIC SEARCH ----------
 
 export async function searchVault(userId: string, query: string, limit = 5) {

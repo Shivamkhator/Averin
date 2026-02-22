@@ -4,11 +4,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { hashEmail } from "@/lib/crypto";
+import {
+  embedAction,
+  deleteEmbeddingsBySource
+} from "@/lib/embeddings";
 
 // PATCH update action
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{id: string}> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -43,6 +47,9 @@ export async function PATCH(
         ...(isCompleted !== undefined && { isCompleted }),
       },
     });
+
+    await deleteEmbeddingsBySource(user.id, "action", id);
+    await embedAction(action);
 
     return NextResponse.json(action);
   } catch (error) {
@@ -84,6 +91,7 @@ export async function DELETE(
     await prisma.actions.delete({
       where: { id }, // Use awaited id
     });
+    await deleteEmbeddingsBySource(user.id, "action", id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

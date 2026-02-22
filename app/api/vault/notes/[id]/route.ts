@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
+import { deleteEmbeddingsBySource, embedNote } from "@/lib/embeddings";
 
 export async function DELETE(
   req: Request,
-  ctx: { params: Promise<{ id: string }> }
+  ctx: { params: Promise<{ id: string }> },
 ) {
   const { id } = await ctx.params;
 
@@ -21,15 +21,14 @@ export async function DELETE(
       userId: session.user.id,
     },
   });
+  await deleteEmbeddingsBySource(session.user.id, "note", id);
 
   return NextResponse.json({ success: true });
 }
 
-
-
 export async function PUT(
   req: Request,
-  ctx: { params: Promise<{ id: string }> }
+  ctx: { params: Promise<{ id: string }> },
 ) {
   const { id } = await ctx.params; // ✅ IMPORTANT
 
@@ -50,6 +49,8 @@ export async function PUT(
       content: body,
     },
   });
+  await deleteEmbeddingsBySource(session.user.id, "note", id);
+  await embedNote(note);
 
   return NextResponse.json({
     id: note.id,
