@@ -65,8 +65,8 @@ export default function SignInPage() {
                   className="mb-6 inline-flex h-18 w-18 items-center justify-center rounded-xl z-10 bg-card-overlay border border-overlay"
                 >
                   <Image
-                    src="/Averin.png"
-                    alt="Averin Logo"
+                    src="/Ojas.png"
+                    alt="Ojas Logo"
                     width={72}
                     height={72}
                   />
@@ -74,7 +74,7 @@ export default function SignInPage() {
               </a>
               <h1 className="text-2xl font-bold text-action">
                 Log in to
-                <EncryptedText text="Averin" className="flex justify-center text-5xl" revealDelayMs={77} flipDelayMs={77} charset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" />
+                <EncryptedText text="Ojas" className="flex justify-center text-5xl" revealDelayMs={77} flipDelayMs={77} charset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" />
               </h1>
             </header>
 

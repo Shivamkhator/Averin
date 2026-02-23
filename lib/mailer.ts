@@ -18,7 +18,7 @@ export async function sendMail({
   html: string;
 }) {
   await transporter.sendMail({
-    from: `"Averin by SkyBee" <${process.env.EMAIL_SERVER_USER}>`,
+    from: `"Ojas by SkyBee" <${process.env.EMAIL_SERVER_USER}>`,
     to,
     subject,
     html,

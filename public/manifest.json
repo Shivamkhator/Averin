@@ -1,15 +1,16 @@
 {
-  "name": "Averin",
-  "short_name": "Averin",
+  "name": "Ojas",
+  "short_name": "Ojas",
   "category": "Health & Fitness",
   "description": "Your insights, only yours.",
   "start_url": "/",
   "icons": [
-  {
-    "src": "/icon-512.png",
-    "sizes": "512x512",
-    "type": "image/png"
-  }],
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "display": "standalone",
   "background_color": "#F3E4E4",
   "theme_color": "#F3E4E4",

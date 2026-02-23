@@ -58,7 +58,7 @@ export default function InstallPrompt() {
       aria-labelledby="install-title"
     >
       <div className="flex flex-col items-center">
-        <p id="install-title" className="font-semibold">Install Averin on Home Screen</p>
+        <p id="install-title" className="font-semibold">Install Ojas on Home Screen</p>
         <p className="font-semibold text-sm">
           Tap ⋮ and then
           <br />

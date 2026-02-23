@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
         const { host } = new URL(url);
         const transporter = nodemailer.createTransport(provider.server);
 
-        const appName = "Averin";
+        const appName = "Ojas";
         const from = `${provider.from}`;
 
         const emailHtml = `
@@ -176,7 +176,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile, email }) {
       if (!account || !user.email) return false;
       delete user.image;
-      const emailHash = hashEmail(user.email);    
+      const emailHash = hashEmail(user.email);
 
       try {
         // Check if user exists with this email

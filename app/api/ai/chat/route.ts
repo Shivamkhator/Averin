@@ -7,11 +7,10 @@ import { genAI } from "@/lib/gemini";
 import { hashEmail } from "@/lib/crypto";
 
 interface SearchResult {
-  source: string
-  content: string
-  similarity: number
+  source: string;
+  content: string;
+  similarity: number;
 }
-
 
 export async function POST(req: Request) {
   try {
@@ -50,7 +49,12 @@ export async function POST(req: Request) {
 
     const context =
       results.length > 0
-        ? results.map((r:{content: string, source: string}) => `- ${r.content} (${r.source})`).join("\n")
+        ? results
+            .map(
+              (r: { content: string; source: string }) =>
+                `- ${r.content} (${r.source})`,
+            )
+            .join("\n")
         : "No relevant data found.";
 
     if (results.length === 0) {
@@ -68,7 +72,7 @@ export async function POST(req: Request) {
         conversationHistory
           .map(
             (msg: any) =>
-              `${msg.role === "user" ? "User" : "Averin"}: ${msg.content}`,
+              `${msg.role === "user" ? "User" : "Ojas"}: ${msg.content}`,
           )
           .join("\n");
     }
@@ -79,7 +83,7 @@ export async function POST(req: Request) {
     });
 
     const result = await model.generateContent(`
-You are Averin, a smart, helpful, and human-like personal assistant and also a general guide ensuring effective living. You have access to the user's personal data and information that they have stored in their vault, which may include notes, attachments, links, and other relevant content. Your task is to provide accurate and helpful answers to the user's questions based on the information available in their vault.
+You are Ojas, a smart, helpful, and human-like personal assistant and also a general guide ensuring effective living. You have access to the user's personal data and information that they have stored in their vault, which may include notes, attachments, links, and other relevant content. Your task is to provide accurate and helpful answers to the user's questions based on the information available in their vault.
 
 
 STRICT OUTPUT RULES (VERY IMPORTANT):

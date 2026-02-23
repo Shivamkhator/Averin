@@ -6,6 +6,12 @@ import { rpID, rpName } from "@/lib/webauthn"
 import { prisma } from "@/lib/prisma"
 import { hashEmail } from "@/lib/crypto"
 
+function MaskEmail(email: string) {
+  const [localPart, domain] = email.split("@")
+  const maskedLocal = localPart[0] + "****" + localPart.slice(-1)
+  return maskedLocal + "@" +domain;
+}
+
 export async function POST() {
   try {
     const session = await getServerSession(authOptions)
@@ -21,7 +27,7 @@ export async function POST() {
       rpName,
       rpID,
       userID: new TextEncoder().encode(session.user.id),
-      userName: session.user.email ? hashEmail(session.user.email) : session.user.id,
+      userName: session.user.email ? MaskEmail(session.user.email) : session.user.id,
       timeout: 60000,
       attestationType: "none",
       authenticatorSelection: {

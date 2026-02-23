@@ -1,8 +1,8 @@
-export const rpName = "Averin";
+export const rpName = "Ojas";
 export const rpID =
-  process.env.NODE_ENV === "production" ? "askaverin.vercel.app" : "localhost";
+  process.env.NODE_ENV === "production" ? "askojas.vercel.app" : "localhost";
 
 export const origin =
   process.env.NODE_ENV === "production"
-    ? "https://askaverin.vercel.app"
+    ? "https://askojas.vercel.app"
     : "http://localhost:3000";

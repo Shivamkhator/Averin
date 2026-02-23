@@ -16,7 +16,7 @@ import { Session } from "next-auth"
 import { useTheme } from "next-themes"
 
 
-type AverinClientProps = {
+type OjasClientProps = {
     user: Session["user"];
 };
 
@@ -28,7 +28,7 @@ type Message = {
 
 const MAX_QUESTIONS = 5;
 
-export default function AskAverinPage({ user }: AverinClientProps) {
+export default function AskOjasPage({ user }: OjasClientProps) {
     const [question, setQuestion] = useState("")
     const [loading, setLoading] = useState(false)
     const [insights, setInsights] = useState<any>(null);
@@ -184,7 +184,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                         <div className="flex flex-col items-center justify-center h-[40svh]">
                             <Brain className="h-12 w-12 text-pink-500 mb-4" />
                             <p className="text-gray-500 text-lg">No personal data available.</p>
-                            <p className='text-gray-400 text-sm text-center'>Add more data in vault to chat with Averin.</p>
+                            <p className='text-gray-400 text-sm text-center'>Add more data in vault to chat with Ojas.</p>
                         </div>
                     </div>
                 )}
@@ -245,7 +245,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                                         <div className="flex items-start gap-2">
                                             <div className="flex-1">
                                                 <p className="text-xs font-semibold text-text mb-1">
-                                                    {msg.role === 'user' ? 'You' : 'Averin'} • {msg.time}
+                                                    {msg.role === 'user' ? 'You' : 'Ojas'} • {msg.time}
                                                 </p>
                                                 <div
                                                     className={`
@@ -289,7 +289,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                         className={`mr-auto bg-overlay border border-overlay rounded-2xl px-4 py-3 mx-4 md:mx-0 w-fit shadow-sm ${questionCount == 0 && 'rounded-t-none'}`}
                     >
                         <p className="text-sm text-text">
-                            Averin is typing<span className="animate-pulse">...</span>
+                            Ojas is typing<span className="animate-pulse">...</span>
                         </p>
                     </motion.div>
                 )}
@@ -325,7 +325,7 @@ export default function AskAverinPage({ user }: AverinClientProps) {
                         {/* Input */}
                         <div className="flex flex-col sm:flex-row gap-2 bg-overlay/70 p-2 rounded-lg border border-overlay">
                             <Input
-                                placeholder="Ask anything to Averin..."
+                                placeholder="Ask anything to Ojas..."
                                 value={question}
                                 disabled={loading || questionCount >= MAX_QUESTIONS}
                                 onChange={(e) => setQuestion(e.target.value)}

@@ -49,7 +49,7 @@ const features = [
 ];
 
 
-export default function AverinClient() {
+export default function OjasClient() {
     const containerRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -83,7 +83,7 @@ function HeroSection() {
         <section className="relative z-10 h-screen w-full flex flex-col justify-between p-4 md:p-12 border-b border-action/10">
             <nav className="flex flex-col md:flex-row justify-between items-start uppercase tracking-widest text-sm md:text-md font-bold text-text">
                 <div>
-                    Averin by SkyBee
+                    Ojas by SkyBee
                 </div>
                 <div className="text-xs md:text-sm tracking-[0.3em] text-text italic" >
                     {dateString}
@@ -112,8 +112,8 @@ function HeroSection() {
                 className=" absolute -z-1 top-[12svh] md:right-8 pointer-events-none"
             >
                 <Image
-                    src="/Averin.png"
-                    alt="Averin Logo"
+                    src="/Ojas.png"
+                    alt="Ojas Logo"
                     width={420}
                     height={420}
                     priority={false}
@@ -245,7 +245,7 @@ function FooterSection() {
             <PreviewCard>
                 <PreviewCardTrigger
                     render={
-                        <Link className="text-background leading-none uppercase mb-8 text-[8vw] font-bold" href="https://shivamkhator.framer.website">Averin
+                        <Link className="text-background leading-none uppercase mb-8 text-[8vw] font-bold" href="https://shivamkhator.framer.website">Ojas
                         </Link>
                     }
                 />
@@ -263,7 +263,7 @@ function FooterSection() {
                         />
                         <div className="flex flex-col gap-2">
                             <div>
-                                <div className="font-bold">Averin</div>
+                                <div className="font-bold">Ojas</div>
                                 <div className="text-xs text-gray-primary">A SkyBee's Creation</div>
                             </div>
                             <div className="text-sm text-gray-400">

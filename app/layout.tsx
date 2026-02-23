@@ -18,14 +18,14 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Averin",
-  icons: "/Averin.png",
+  title: "Ojas",
+  icons: "/Ojas.png",
   description: "Life Made Easier",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Averin",
+    title: "Ojas",
   },
 };
 
@@ -45,7 +45,7 @@ export default function RootLayout({
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="translucent" />
-        <meta name="apple-mobile-web-app-title" content="Averin" />
+        <meta name="apple-mobile-web-app-title" content="Ojas" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
       <body
@@ -57,7 +57,7 @@ export default function RootLayout({
           <AppToaster />
           {children}
         </Providers>
-        
+
       </body>
     </html>
   );

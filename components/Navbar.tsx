@@ -115,7 +115,7 @@ export default function Navbar() {
   const navItems: NavItem[] = [
     { id: 'home', path: '/vault', label: 'Home', icon: <ShieldUserIcon /> },
     { id: 'actions', path: '/actions', label: 'Actions', icon: icons.actions },
-    { id: 'averin', path: '/averin', label: 'Averin', icon: <Brain /> },
+    { id: 'Ojas', path: '/ojas', label: 'Ojas', icon: <Brain /> },
     { id: 'logout', path: "", label: 'Logout', icon: icons.logoutIcon, onClick: () => { clearLockState(); signOut(); } },
   ];
 
@@ -148,7 +148,7 @@ export default function Navbar() {
 
           <div className="flex items-center justify-center">
             <Link href={session ? '/vault' : '/'} className="mr-8">
-              <Image src="/Averin.png" alt="Home" width={36} height={36} />
+              <Image src="/Ojas.png" alt="Home" width={36} height={36} />
             </Link>
 
             <NavigationMenu>
